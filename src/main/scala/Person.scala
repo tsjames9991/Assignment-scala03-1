@@ -4,14 +4,9 @@ import org.apache.log4j.Logger
 import org.json4s._
 import org.json4s.jackson.Serialization.read
 import scala.io.Source
-import scala.util.Random
 
 
 class PersonClass {
-
-  class Address(val line1: String, val line2: String, line3: String, country: String)
-
-  class Person(val name: String, @transient val luckyNumber: Int, @transient val day: Date, val phoneNumber: String, val address: Address)
 
   def writeToJSON(person: Person): Unit = {
     implicit val formats: DefaultFormats = DefaultFormats
@@ -38,7 +33,6 @@ class PersonClass {
       log.info(s"\nName        : ${person.name}\n")
       log.info(s"Day         : ${person.day}\n")
       log.info(s"Lucky Number: ${person.luckyNumber}\n")
-      log.info(s"Phone Number      : ${person.phoneNumber}\n")
       log.info(s"Address   : ${person.address.line1}\n")
       log.info(s"\t: ${person.address.line2}\n")
       log.info(s"\t: ${person.address.line3}\n")
@@ -47,6 +41,10 @@ class PersonClass {
       case except: Exception => log.info(except.getMessage)
     }
   }
+
+  class Address(val line1: String, val line2: String, val line3: String, val country: String)
+
+  class Person(val name: String, @transient val luckyNumber: Int, @transient val day: Date, val address: Address)
 
 
 }
@@ -57,11 +55,10 @@ object PersonClass extends App {
   val address3: String = "Sahibababd, Ghaziabad, Uttar Pradesh"
   val country: String = "India"
   val name: String = "Sudeep James Tirkey"
-  val number: Int = Random.nextInt()
-  val phone: String = "9810622717"
+  val number: Int = 99
   val person = new PersonClass
   val fullAddress = new person.Address(address1, address2, address3, country)
-  val detail = new person.Person(name, number, new Date(), phone, fullAddress)
+  val detail = new person.Person(name, number, new Date(), fullAddress)
   person.writeToJSON(detail)
   person.readFromJSON()
 }
