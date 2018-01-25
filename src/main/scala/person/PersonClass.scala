@@ -1,13 +1,11 @@
 package person
 
-import java.io.File
-import java.io.PrintWriter
+import java.io.{File, PrintWriter}
 import java.util.Date
 import org.apache.log4j.Logger
 import org.json4s.DefaultFormats
-import org.json4s.jackson.Serialization.read
+import org.json4s.jackson.Serialization.{read, write}
 import scala.io.Source
-import scala.util.Random
 
 class PersonClass {
 
@@ -16,7 +14,7 @@ class PersonClass {
   def writeJSON(person: Person): Unit = {
     implicit val formats: DefaultFormats = DefaultFormats
     val log = Logger.getLogger(this.getClass)
-    val json = org.json4s.jackson.Serialization.write(person)
+    val json = write(person)
     try {
       val inputToFile = new PrintWriter(new File("Data.json"))
       inputToFile.write(json)
