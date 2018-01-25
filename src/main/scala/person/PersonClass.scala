@@ -16,10 +16,10 @@ class PersonClass {
   def writeJSON(person: Person): Unit = {
     implicit val formats: DefaultFormats = DefaultFormats
     val log = Logger.getLogger(this.getClass)
-    val jsonString = org.json4s.jackson.Serialization.write(person)
+    val json = org.json4s.jackson.Serialization.write(person)
     try {
       val inputToFile = new PrintWriter(new File("Data.json"))
-      inputToFile.write(jsonString)
+      inputToFile.write(json)
       log.info("\nInput recorded to file: Data.json")
       inputToFile.close()
     }
@@ -32,13 +32,13 @@ class PersonClass {
     implicit val formats: DefaultFormats = DefaultFormats
     val log = Logger.getLogger(this.getClass)
     try {
-      val bufferedSource = Source.fromFile(new File("Data.json")).mkString
-      val person: Person = read[Person](bufferedSource)
+      val source = Source.fromFile(new File("Data.json")).mkString
+      val person: Person = read[Person](source)
       log.info(s"\nDetails of Person\n")
       log.info(s"------------------\n")
       log.info(s"Name        : ${person.name}\n")
-      log.info(s"Day         : ${new Date()}\n")
-      log.info(s"Lucky Number: ${Random.nextInt(UID)}\n")
+      log.info(s"Day         : ${person.day}\n")
+      log.info(s"Lucky Number: ${person.luckyNumber}\n")
       log.info(s"Address     : ${person.address.line1}\n")
       log.info(s"            : ${person.address.line2}\n")
       log.info(s"            : ${person.address.line3}\n")
